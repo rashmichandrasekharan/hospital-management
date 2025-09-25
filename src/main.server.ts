@@ -1,7 +1,16 @@
-import { bootstrapApplication } from '@angular/platform-browser';
+import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { App } from './app/app';
-import { config } from './app/app.config.server';
+import { appConfig } from './app/app.config';
+import { type BootstrapContext } from '@angular/platform-browser';
 
-const bootstrap = () => bootstrapApplication(App, config);
+export default function bootstrap(context: unknown) {
+  return bootstrapApplication(App, {
+    ...appConfig,
+    providers: [
+      ...(appConfig.providers || []),
+      provideClientHydration(),
+    ],
+  }, context as BootstrapContext);
+}
 
-export default bootstrap;
+

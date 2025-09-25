@@ -1,0 +1,68 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4 text-success">Patients Management</h2>
+
+  <div class="row">
+    <!-- Left Column: Patient Form -->
+    <div class="col-md-4">
+      <div class="card shadow-sm p-3">
+        <h5 class="card-title mb-3">{{ editMode ? 'Edit' : 'Add' }} Patient</h5>
+
+        <form (ngSubmit)="addOrUpdatePatient()" class="form">
+          <input [(ngModel)]="newPatient.name" name="name" placeholder="Name" required class="form-control mb-2">
+          <input [(ngModel)]="newPatient.age" name="age" placeholder="Age" type="number" required class="form-control mb-2">
+
+          <select [(ngModel)]="newPatient.gender" name="gender" required class="form-control mb-2">
+            <option value="" disabled selected>Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+          </select>
+
+          <input [(ngModel)]="newPatient.medicalHistory" name="medicalHistory" placeholder="Medical History" class="form-control mb-2">
+          <input [(ngModel)]="newPatient.contact" name="contact" placeholder="Contact" class="form-control mb-3">
+
+          <button type="submit" class="btn btn-primary w-100 mb-2">
+            {{ editMode ? 'Update' : 'Add' }} Patient
+          </button>
+          <button type="button" class="btn btn-secondary w-100" (click)="resetForm()" *ngIf="editMode">Cancel</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Column: Patient Table -->
+    <div class="col-md-8">
+      <div class="table-responsive shadow-sm">
+        <h5 class="mb-3">
+  🧾 {{ patients.length }} Patient{{ patients.length !== 1 ? 's' : '' }} Found
+</h5>
+
+        <table class="table table-bordered align-middle mt-0">
+          <thead class="table-success">
+            <tr>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Gender</th>
+              <th>Medical History</th>
+              <th>Contact</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let patient of patients">
+              <td>{{ patient.name }}</td>
+              <td>{{ patient.age }}</td>
+              <td>{{ patient.gender }}</td>
+              <td>{{ patient.medicalHistory }}</td>
+              <td>{{ patient.contact }}</td>
+              <td>
+                <button class="btn btn-warning btn-sm me-2" (click)="editPatient(patient)">Edit</button>
+                <button class="btn btn-danger btn-sm" (click)="deletePatient(patient._id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

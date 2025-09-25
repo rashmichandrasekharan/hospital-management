@@ -1,0 +1,71 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4 text-info">Appointments Management</h2>
+
+  <div class="row">
+    <!-- Left Column: Appointment Form -->
+    <div class="col-md-4">
+      <div class="card shadow-sm p-3">
+        <h5 class="card-title mb-3">{{ editMode ? 'Edit' : 'Add' }} Appointment</h5>
+
+        <form (ngSubmit)="addOrUpdateAppointment()" class="form">
+          <!-- Patient Selector -->
+          <select [(ngModel)]="newAppointment.patient" name="patient" required class="form-control mb-2">
+            <option [ngValue]="null" disabled>Select Patient</option>
+            <option *ngFor="let p of patients" [ngValue]="p._id">{{ p.name }}</option>
+          </select>
+
+          <!-- Doctor Selector -->
+          <select [(ngModel)]="newAppointment.doctor" name="doctor" required class="form-control mb-2">
+            <option [ngValue]="null" disabled>Select Doctor</option>
+            <option *ngFor="let d of doctors" [ngValue]="d._id">{{ d.name }}</option>
+          </select>
+
+          <!-- Date, Time, Reason -->
+          <input type="date" [(ngModel)]="newAppointment.date" name="date" required class="form-control mb-2" />
+          <input type="time" [(ngModel)]="newAppointment.time" name="time" required class="form-control mb-2" />
+          <input type="text" [(ngModel)]="newAppointment.reason" name="reason" placeholder="Reason" required class="form-control mb-3" />
+
+          <button type="submit" class="btn btn-primary w-100 mb-2">
+            {{ editMode ? 'Update' : 'Add' }} Appointment
+          </button>
+          <button type="button" class="btn btn-secondary w-100" (click)="resetForm()" *ngIf="editMode">Cancel</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Column: Appointments Table -->
+    <div class="col-md-8">
+      <div class="table-responsive shadow-sm">
+        <h5 class="mb-3">
+  🧾 {{ appointments.length }} Appointment{{ appointments.length !== 1 ? 's' : '' }} Found
+</h5>
+
+        <table class="table table-bordered align-middle">
+          <thead class="table-info">
+            <tr>
+              <th>Patient</th>
+              <th>Doctor</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Reason</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let appt of appointments">
+              <td>{{ getPatientName(appt.patient) }}</td>
+              <td>{{ getDoctorName(appt.doctor) }}</td>
+              <td>{{ appt.date }}</td>
+              <td>{{ appt.time }}</td>
+              <td>{{ appt.reason }}</td>
+              <td>
+                <!-- <button class="btn btn-warning btn-sm me-2" (click)="editAppointment(appt)">Edit</button> -->
+                <button class="btn btn-danger btn-sm" (click)="deleteAppointment(appt._id!)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

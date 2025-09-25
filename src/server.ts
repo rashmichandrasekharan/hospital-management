@@ -1,3 +1,6 @@
+(global as any).XMLHttpRequest = require('xhr2');
+import 'zone.js/node';
+
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -27,6 +30,7 @@ const angularApp = new AngularNodeAppEngine();
 /**
  * Serve static files from /browser
  */
+
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',

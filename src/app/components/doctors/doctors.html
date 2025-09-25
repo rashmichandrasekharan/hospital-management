@@ -1,0 +1,54 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4 text-primary">Doctors Management</h2>
+
+  <div class="row">
+    <!-- Left Column: Form -->
+    <div class="col-md-4">
+      <div class="card shadow-sm p-3">
+        <h5 class="card-title mb-3">{{ editMode ? 'Edit' : 'Add' }} Doctor</h5>
+
+        <form (ngSubmit)="addOrUpdateDoctor()" class="form">
+          <input [(ngModel)]="newDoctor.name" name="name" placeholder="Doctor Name" required class="form-control mb-2">
+          <input [(ngModel)]="newDoctor.specialization" name="specialization" placeholder="Specialization" required class="form-control mb-2">
+          <input [(ngModel)]="newDoctor.availability" name="availability" placeholder="Availability" required class="form-control mb-3">
+
+          <button type="submit" class="btn btn-primary w-100 mb-2">
+            {{ editMode ? 'Update' : 'Add' }} Doctor
+          </button>
+          <button type="button" class="btn btn-secondary w-100" (click)="resetForm()" *ngIf="editMode">Cancel</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Column: Table -->
+    <div class="col-md-8">
+      <div class="table-responsive shadow-sm">
+        <h5 class="mb-3">
+  🧾 {{ doctors.length }} Doctor{{ doctors.length !== 1 ? 's' : '' }} Found
+</h5>
+
+        <table class="table table-bordered align-middle">
+          <thead class="table-primary">
+            <tr>
+              <th>Name</th>
+              <th>Specialization</th>
+              <th>Availability</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doctor of doctors">
+              <td>{{ doctor.name }}</td>
+              <td>{{ doctor.specialization }}</td>
+              <td>{{ doctor.availability }}</td>
+              <td>
+                <button class="btn btn-warning btn-sm me-2" (click)="editDoctor(doctor)">Edit</button>
+                <button class="btn btn-danger btn-sm" (click)="deleteDoctor(doctor._id!)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
